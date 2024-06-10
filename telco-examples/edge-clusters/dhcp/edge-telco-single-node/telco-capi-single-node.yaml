@@ -268,6 +268,20 @@ spec:
                 ExecStartPost=/bin/sh -c "systemctl enable tuned.service"
                 [Install]
                 WantedBy=multi-user.target
+            - name: stall-configuration.service
+              enabled: true
+              contents: |
+                [Unit]
+                Description=stalld-configuration
+                Wants=network-online.target
+                After=network.target network-online.target
+                [Service]
+                Type=oneshot
+                User=root
+                ExecStart=/bin/sh -c "sed -i 's/^CLIST=$/CLIST=\"-c ${ISOLATED_CPU_CORES}\"/' /etc/stalld.conf"
+                ExecStartPost=/bin/sh -c "systemctl enable stalld.service"
+                [Install]
+                WantedBy=multi-user.target
             - name: dpdk-vf-creation.service
               enabled: true
               contents: |
