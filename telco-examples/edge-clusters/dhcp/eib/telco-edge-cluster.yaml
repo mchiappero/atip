@@ -23,6 +23,8 @@ operatingSystem:
       - dpdk22-tools
       - libdpdk-23
       - pf-bb-config
+      - stalld
     additionalRepos:
       - url: https://download.opensuse.org/repositories/isv:/SUSE:/Edge:/Telco/SLEMicro5.5/
+      - url: https://download.opensuse.org/repositories/home:/mchiappero/15.5/
     sccRegistrationCode: ${SCC_REGISTRATION_CODE}
