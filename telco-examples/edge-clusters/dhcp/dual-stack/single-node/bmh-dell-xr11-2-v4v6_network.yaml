@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lab-dell-xr11-2-networkdata
+type: Opaque
+stringData:
+  networkData: |
+    interfaces:
+    - name: em1
+      type: ethernet
+      state: up
+      mac-address: "B4:45:06:ED:11:DF"
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: true
+        autoconf: true
+        dhcp: true
+        auto-dns: false
+        auto-gateway: true
+        auto-routes: true
+    dns-resolver:
+      config:
+        server:
+        - 8.8.4.4
+        - 2001:4860:4860::8844
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lab-dell-xr11-2-credentials
+type: Opaque
+data:
+  username: cm9vdA==
+  password: c3VzZTEyMw==
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: lab-dell-xr11-2
+  labels:
+    cluster-role: control-plane
+    node: lab-dell-xr11-2
+spec:
+  online: true
+  bootMACAddress: b4:45:06:ed:11:d9
+  preprovisioningNetworkDataName: lab-dell-xr11-2-networkdata
+  bmc:
+    address: idrac-virtualmedia://10.168.200.32/redfish/v1/Systems/System.Embedded.1
+    disableCertificateVerification: true
+    credentialsName: lab-dell-xr11-2-credentials
